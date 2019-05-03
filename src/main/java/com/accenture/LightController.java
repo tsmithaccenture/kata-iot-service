@@ -17,6 +17,11 @@ public class LightController{
     @Resource
     private Store store;
 
+    @GetMapping("/")
+    public String base(){
+        return "redirect:/home";
+    }
+
     @GetMapping("/home")
     public String homePage(Model model){
         model.addAttribute("imageUrl", store.getImageUrl());
