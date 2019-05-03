@@ -1,3 +1,7 @@
+body {
+    background-color: black;
+}
+
 #lightImage{
     height: 250px;
     display: block;

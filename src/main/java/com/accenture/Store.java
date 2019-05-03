@@ -1,13 +1,22 @@
 package com.accenture;
 
-class Store{
-    private static String CURRENT_IMAGE_URL;
+import org.springframework.stereotype.Component;
 
-    static String getImageUrl(){
-        return CURRENT_IMAGE_URL;
+import static com.accenture.IotImage.*;
+
+@Component()
+public class Store{
+    private String imageUrl;
+
+    public Store(){
+        imageUrl = OFF_IMAGE_URL;
     }
 
-    static void setImageUrl(String imageUrl){
-        CURRENT_IMAGE_URL = imageUrl;
+    public String getImageUrl(){
+        return imageUrl;
+    }
+
+    public void setImageUrl(String imageUrl){
+        this.imageUrl = imageUrl;
     }
 }

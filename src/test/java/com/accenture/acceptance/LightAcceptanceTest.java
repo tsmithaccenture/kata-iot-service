@@ -48,15 +48,15 @@ public class LightAcceptanceTest implements IotImage {
     }
 
     private void turnLightOff() {
-        webClient.get().uri("/off").exchange().expectStatus().isOk();
+        webClient.get().uri("/turn/off").exchange().expectStatus().isOk();
     }
 
     private void turnLightOn() {
-        webClient.get().uri("/on").exchange().expectStatus().isOk();
+        webClient.get().uri("/turn/on").exchange().expectStatus().isOk();
     }
 
     private void verifyLightStatusChanged(String statusImageUrl) {
-        String body = webClient.get().uri("/").exchange().expectStatus().isOk()
+        String body = webClient.get().uri("/home").exchange().expectStatus().isOk()
                 .expectBody(String.class)
                 .returnResult().getResponseBody();
 
