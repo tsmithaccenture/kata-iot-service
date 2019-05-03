@@ -7,10 +7,12 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
-@Controller
-public class LightController implements IotImage {
+import static com.accenture.IotImage.*;
 
-    @GetMapping()
+@Controller
+public class LightController{
+
+    @GetMapping("/home")
     public String homePage(Model model){
         model.addAttribute("imageUrl", Store.getImageUrl());
         return "home";

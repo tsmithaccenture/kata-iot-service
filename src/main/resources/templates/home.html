@@ -1,16 +1,14 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+
 <head>
     <meta charset="UTF-8">
     <title>Home Lighting</title>
-    <link rel="stylesheet" href="../static/css/App.css">
+    <link rel="stylesheet" type="text/css" th:href="@{/static/css/app.css}" />
 </head>
+
 <body>
     <img id="lightImage"
-         style="height: 250px;
-                display: block;
-                margin-left: auto;
-                margin-right: auto;"
          th:src="@{${imageUrl}}"/>
 
     <script type="text/javascript">
