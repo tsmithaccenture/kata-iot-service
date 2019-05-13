@@ -1,7 +1,5 @@
 package com.accenture;
 
-import com.accenture.LightController;
-import com.accenture.Store;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -75,5 +73,4 @@ public class LightControllerIntegrationTest {
                 .andDo(print())
                 .andExpect(status().isOk());
     }
-
 }

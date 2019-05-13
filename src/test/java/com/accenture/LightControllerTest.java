@@ -1,8 +1,5 @@
 package com.accenture;
 
-import com.accenture.IotImage;
-import com.accenture.LightController;
-import com.accenture.Store;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;

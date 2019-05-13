@@ -1,6 +1,5 @@
 package com.accenture;
 
-import com.accenture.mqtt.LightCallback;
 import com.accenture.mqtt.LightSwitchSubscriber;
 import org.apache.activemq.broker.BrokerService;
 import org.eclipse.paho.client.mqttv3.*;
@@ -18,7 +17,6 @@ import static org.junit.Assert.assertTrue;
 @RunWith(SpringRunner.class)
 public class LightAcceptanceTest implements IotImage {
 
-    private static BrokerService activeMQBroker;
     private static MqttClient publisher;
     private final static String TOPIC = "iot.light.switch";
     private final static String MESSAGE_TURN_ON = "on";
@@ -28,14 +26,11 @@ public class LightAcceptanceTest implements IotImage {
     private WebTestClient webClient;
 
     @Autowired
-    private LightCallback lightCallback;
-
-    @Autowired
     private LightSwitchSubscriber switchSubscriber;
 
     @BeforeClass
     public static void setup() throws Exception {
-        activeMQBroker = new BrokerService();
+        BrokerService activeMQBroker = new BrokerService();
         activeMQBroker.addConnector("mqtt" + BROKER_URL);
         activeMQBroker.setPersistent(false);
         activeMQBroker.setUseJmx(false);
