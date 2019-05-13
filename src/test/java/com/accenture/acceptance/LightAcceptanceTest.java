@@ -1,6 +1,11 @@
 package com.accenture.acceptance;
 
 import com.accenture.IotImage;
+import com.accenture.mqtt.LightCallback;
+import org.apache.activemq.broker.BrokerService;
+import org.eclipse.paho.client.mqttv3.*;
+import org.eclipse.paho.client.mqttv3.persist.MemoryPersistence;
+import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,14 +19,43 @@ import static org.junit.Assert.assertTrue;
 @RunWith(SpringRunner.class)
 public class LightAcceptanceTest implements IotImage {
 
+    private static BrokerService activeMQBroker;
+    private static MqttClient publisher;
+    private final static String TOPIC = "Controller";
+    private final static String MESSAGE_TURN_ON = "on";
+    private final static String BROKER_URL = "://localhost:1883";
+
     @Autowired
     private WebTestClient webClient;
 
+    @Autowired
+    private LightCallback lightCallback;
+
+    @BeforeClass
+    public static void setup() throws Exception {
+        activeMQBroker = new BrokerService();
+        activeMQBroker.addConnector("mqtt" + BROKER_URL);
+        activeMQBroker.setPersistent(false);
+        activeMQBroker.setUseJmx(false);
+        activeMQBroker.start();
+
+        publisher = new MqttClient("tcp" + BROKER_URL, MqttAsyncClient.generateClientId());
+        publisher.connect();
+    }
+
     @Test
-    public void GivenTheLightIsOff_WhenTurnTheLightOn_ThenTheLightTurnsOn(){
+    public void GivenTheLightIsOff_WhenTurnTheLightOn_ThenTheLightTurnsOn() throws Exception {
         givenTheLightIsOff();
 
-        turnLightOn();
+        MqttClient subscriber = new MqttClient("tcp" + BROKER_URL, MqttAsyncClient.generateClientId(), new MemoryPersistence());
+        subscriber.setCallback(lightCallback);
+        subscriber.connect();
+
+        subscriber.subscribe(TOPIC);
+
+        publisher.publish(TOPIC, new MqttMessage(MESSAGE_TURN_ON.getBytes()));
+
+        Thread.sleep(500);
 
         verifyLightStatusChanged(ON_IMAGE_URL);
     }

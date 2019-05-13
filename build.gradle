@@ -28,8 +28,11 @@ repositories {
 dependencies {
     compile 'org.springframework.boot:spring-boot-starter-web'
     compile 'org.springframework.boot:spring-boot-starter-webflux'
-    compile("org.springframework.boot:spring-boot-starter-thymeleaf")
+    compile 'org.springframework.boot:spring-boot-starter-thymeleaf'
+    compile 'org.eclipse.paho:org.eclipse.paho.client.mqttv3:1.0.2'
+    compile 'org.eclipse.paho:org.eclipse.paho.android.service:1.0.2'
 
+    testCompile 'org.apache.activemq:activemq-mqtt:5.11.1'
     testCompile 'org.springframework.boot:spring-boot-starter-test'
     testCompile group: 'junit', name: 'junit', version: '4.12'
 }
