@@ -1,8 +1,7 @@
-package com.accenture.test.mqtt;
+package com.accenture.mqtt;
 
 import com.accenture.IotImage;
 import com.accenture.Store;
-import com.accenture.mqtt.LightCallback;
 import org.eclipse.paho.client.mqttv3.MqttMessage;
 import org.junit.Test;
 import org.junit.runner.RunWith;

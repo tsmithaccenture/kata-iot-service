@@ -1,4 +1,4 @@
-package com.accenture.test;
+package com.accenture;
 
 import com.accenture.LightController;
 import com.accenture.Store;

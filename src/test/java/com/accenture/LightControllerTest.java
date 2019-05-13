@@ -1,4 +1,4 @@
-package com.accenture.test;
+package com.accenture;
 
 import com.accenture.IotImage;
 import com.accenture.LightController;

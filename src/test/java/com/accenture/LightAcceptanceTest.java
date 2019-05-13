@@ -1,10 +1,9 @@
-package com.accenture.acceptance;
+package com.accenture;
 
-import com.accenture.IotImage;
 import com.accenture.mqtt.LightCallback;
+import com.accenture.mqtt.LightSwitchSubscriber;
 import org.apache.activemq.broker.BrokerService;
 import org.eclipse.paho.client.mqttv3.*;
-import org.eclipse.paho.client.mqttv3.persist.MemoryPersistence;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -21,7 +20,7 @@ public class LightAcceptanceTest implements IotImage {
 
     private static BrokerService activeMQBroker;
     private static MqttClient publisher;
-    private final static String TOPIC = "Controller";
+    private final static String TOPIC = "iot.light.switch";
     private final static String MESSAGE_TURN_ON = "on";
     private final static String BROKER_URL = "://localhost:1883";
 
@@ -30,6 +29,9 @@ public class LightAcceptanceTest implements IotImage {
 
     @Autowired
     private LightCallback lightCallback;
+
+    @Autowired
+    private LightSwitchSubscriber switchSubscriber;
 
     @BeforeClass
     public static void setup() throws Exception {
@@ -44,15 +46,10 @@ public class LightAcceptanceTest implements IotImage {
     }
 
     @Test
-    public void GivenTheLightIsOff_WhenTurnTheLightOn_ThenTheLightTurnsOn() throws Exception {
+    public void GivenTheLightIsOff_WhenTurnTheLightOn_ThenTheLightTurnsOn_ViaMqtt() throws Exception {
         givenTheLightIsOff();
 
-        MqttClient subscriber = new MqttClient("tcp" + BROKER_URL, MqttAsyncClient.generateClientId(),
-                new MemoryPersistence());
-        subscriber.setCallback(lightCallback);
-        subscriber.connect();
-
-        subscriber.subscribe(TOPIC);
+        switchSubscriber.subscribe();
 
         publisher.publish(TOPIC, new MqttMessage(MESSAGE_TURN_ON.getBytes()));
 
@@ -62,7 +59,7 @@ public class LightAcceptanceTest implements IotImage {
     }
 
     @Test
-    public void GivenTheLightIsOn_WhenTurnTheLightOff_ThenTheLightTurnsOff(){
+    public void GivenTheLightIsOn_WhenTurnTheLightOff_ThenTheLightTurnsOff_ViaHttp(){
         givenTheLightIsOn();
 
         turnLightOff();
