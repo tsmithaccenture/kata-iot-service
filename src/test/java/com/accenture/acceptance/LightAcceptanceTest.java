@@ -47,7 +47,8 @@ public class LightAcceptanceTest implements IotImage {
     public void GivenTheLightIsOff_WhenTurnTheLightOn_ThenTheLightTurnsOn() throws Exception {
         givenTheLightIsOff();
 
-        MqttClient subscriber = new MqttClient("tcp" + BROKER_URL, MqttAsyncClient.generateClientId(), new MemoryPersistence());
+        MqttClient subscriber = new MqttClient("tcp" + BROKER_URL, MqttAsyncClient.generateClientId(),
+                new MemoryPersistence());
         subscriber.setCallback(lightCallback);
         subscriber.connect();
 

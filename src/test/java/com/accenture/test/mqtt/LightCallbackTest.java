@@ -10,6 +10,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.verifyNoMoreInteractions;
 
 @RunWith(MockitoJUnitRunner.class)
 public class LightCallbackTest {
@@ -32,5 +33,33 @@ public class LightCallbackTest {
         lightCallback.messageArrived("Any Topic", new MqttMessage("off".getBytes()));
 
         verify(store).setImageUrl(IotImage.OFF_IMAGE_URL);
+    }
+
+    @Test
+    public void messageArrived_WhenEmptyStringIsReceived_ThenNothingHappens(){
+        lightCallback.messageArrived("Any Topic", new MqttMessage("".getBytes()));
+
+        verifyNoMoreInteractions(store);
+    }
+
+    @Test
+    public void messageArrived_WhenNullIsReceived_ThenNothingHappens(){
+        lightCallback.messageArrived("Any Topic", null);
+
+        verifyNoMoreInteractions(store);
+    }
+
+    @Test
+    public void connectionLost_DoesNothing(){
+        lightCallback.connectionLost(null);
+
+        verifyNoMoreInteractions(store);
+    }
+
+    @Test
+    public void deliveryComplete_DoesNothing(){
+        lightCallback.deliveryComplete(null);
+
+        verifyNoMoreInteractions(store);
     }
 }

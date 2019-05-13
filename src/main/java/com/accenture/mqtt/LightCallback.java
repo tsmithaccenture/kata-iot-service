@@ -22,11 +22,14 @@ public class LightCallback implements MqttCallback {
 
     @Override
     public void messageArrived(String topic, MqttMessage message){
+        if (message == null)
+            return;
+
         String signal = new String(message.getPayload());
 
         if("on".equals(signal)) {
             store.setImageUrl(IotImage.ON_IMAGE_URL);
-        }else{
+        }else if("off".equals(signal)) {
             store.setImageUrl(IotImage.OFF_IMAGE_URL);
         }
     }
