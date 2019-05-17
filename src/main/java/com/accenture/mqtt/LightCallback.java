@@ -8,12 +8,20 @@ import org.eclipse.paho.client.mqttv3.MqttMessage;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
+import java.util.HashMap;
 
 @Component
 public class LightCallback implements MqttCallback {
 
     @Resource
     private Store store;
+
+    private HashMap<String, String> codes = new HashMap<>();
+
+    public LightCallback(){
+        codes.put("ON", "1");
+        codes.put("OFF", "0");
+    }
 
     @Override
     public void connectionLost(Throwable cause) {
@@ -22,14 +30,15 @@ public class LightCallback implements MqttCallback {
 
     @Override
     public void messageArrived(String topic, MqttMessage message){
+
         if (message == null)
             return;
 
         String signal = new String(message.getPayload());
 
-        if("on".equals(signal)) {
+        if(codes.get("ON").equals(signal)) {
             store.setImageUrl(IotImage.ON_IMAGE_URL);
-        }else if("off".equals(signal)) {
+        }else if(codes.get("OFF").equals(signal)) {
             store.setImageUrl(IotImage.OFF_IMAGE_URL);
         }
     }
