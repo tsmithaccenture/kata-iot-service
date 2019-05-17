@@ -32,7 +32,7 @@ public class LightCallbackTest {
     }
 
     @Test
-    public void messageArrived_WhenOffIsReceived_ThenUpdateStoreWithOffStatus(){
+    public void messageArrived_WhenOffCodeIsReceived_ThenUpdateStoreWithOffStatus(){
         lightCallback.messageArrived("Any Topic", new MqttMessage(OFF.getBytes()));
 
         verify(store).setImageUrl(IotImage.OFF_IMAGE_URL);
