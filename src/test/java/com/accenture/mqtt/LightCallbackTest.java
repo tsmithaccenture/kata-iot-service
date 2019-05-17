@@ -14,6 +14,10 @@ import static org.mockito.Mockito.verifyNoMoreInteractions;
 @RunWith(MockitoJUnitRunner.class)
 public class LightCallbackTest {
 
+    private static final String ON = "1";
+    private static final String OFF = "0";
+
+
     @Mock
     private Store store;
 
@@ -21,15 +25,15 @@ public class LightCallbackTest {
     private LightCallback lightCallback;
 
     @Test
-    public void messageArrived_WhenOnIsReceived_ThenUpdateStoreWithOnStatus(){
-        lightCallback.messageArrived("Any Topic", new MqttMessage("on".getBytes()));
+    public void messageArrived_WhenOnCodeIsReceived_ThenUpdateStoreWithOnStatus(){
+        lightCallback.messageArrived("Any Topic", new MqttMessage(ON.getBytes()));
 
         verify(store).setImageUrl(IotImage.ON_IMAGE_URL);
     }
 
     @Test
     public void messageArrived_WhenOffIsReceived_ThenUpdateStoreWithOffStatus(){
-        lightCallback.messageArrived("Any Topic", new MqttMessage("off".getBytes()));
+        lightCallback.messageArrived("Any Topic", new MqttMessage(OFF.getBytes()));
 
         verify(store).setImageUrl(IotImage.OFF_IMAGE_URL);
     }

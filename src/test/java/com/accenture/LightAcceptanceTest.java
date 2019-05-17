@@ -19,7 +19,7 @@ public class LightAcceptanceTest implements IotImage {
 
     private static MqttClient publisher;
     private final static String TOPIC = "iot.light.switch";
-    private final static String MESSAGE_TURN_ON = "on";
+    private final static String MESSAGE_TURN_ON = "1";
     private final static String BROKER_URL = "://localhost:1883";
 
     @Autowired
