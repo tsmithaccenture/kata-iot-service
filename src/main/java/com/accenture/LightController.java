@@ -1,5 +1,6 @@
 package com.accenture;
 
+import com.accenture.mqtt.LightPublisher;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -9,10 +10,11 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 
 import javax.annotation.Resource;
 
-import static com.accenture.IotImage.*;
-
 @Controller
 public class LightController{
+
+    @Resource
+    private LightPublisher lightPublisher;
 
     @Resource
     private Store store;
@@ -34,15 +36,9 @@ public class LightController{
         return store.getImageUrl();
     }
 
-    @GetMapping("/turn/on")
+    @GetMapping("/toggle")
     @ResponseStatus(value = HttpStatus.OK)
-    public void on(){
-        store.setImageUrl(ON_IMAGE_URL);
-    }
-
-    @GetMapping("/turn/off")
-    @ResponseStatus(value = HttpStatus.OK)
-    public void off(){
-        store.setImageUrl(OFF_IMAGE_URL);
+    public void toggle() {
+        lightPublisher.publish();
     }
 }

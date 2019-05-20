@@ -7,8 +7,6 @@ import org.springframework.stereotype.Component;
 @Component
 public class LightSwitchSubscriber {
 
-    public final static String TOPIC = "iot.light.switch";
-    public final static String BROKER_URL = "tcp://localhost:1883";
     private LightCallback lightCallback;
     private MqttClientFactory mqttClientFactory;
 
@@ -20,12 +18,12 @@ public class LightSwitchSubscriber {
 
     public void subscribe(){
         try {
-            MqttClient subscriber = mqttClientFactory.create(BROKER_URL);
+            MqttClient subscriber = mqttClientFactory.create(IotMqtt.BROKER_URL);
 
             subscriber.setCallback(lightCallback);
             subscriber.connect();
 
-            subscriber.subscribe(TOPIC);
+            subscriber.subscribe(IotMqtt.TOPIC);
         } catch (MqttException e) {
             new RuntimeException(e);
         }

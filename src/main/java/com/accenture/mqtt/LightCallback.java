@@ -1,6 +1,5 @@
 package com.accenture.mqtt;
 
-import com.accenture.IotImage;
 import com.accenture.Store;
 import org.eclipse.paho.client.mqttv3.IMqttDeliveryToken;
 import org.eclipse.paho.client.mqttv3.MqttCallback;
@@ -34,11 +33,7 @@ public class LightCallback implements MqttCallback {
         if (message == null || new String(message.getPayload()).equals(""))
             return;
 
-        if(store.getImageUrl().equals(IotImage.OFF_IMAGE_URL)) {
-            store.setImageUrl(IotImage.ON_IMAGE_URL);
-        }else {
-            store.setImageUrl(IotImage.OFF_IMAGE_URL);
-        }
+        store.toggleImage();
     }
 
     @Override
