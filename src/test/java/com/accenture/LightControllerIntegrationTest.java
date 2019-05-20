@@ -1,5 +1,7 @@
 package com.accenture;
 
+import com.accenture.mqtt.LightPublisher;
+import com.accenture.mqtt.MqttClientFactory;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +17,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @RunWith(SpringRunner.class)
 @WebMvcTest(LightController.class)
-@Import(Store.class)
+@Import({Store.class, LightPublisher.class, MqttClientFactory.class})
 public class LightControllerIntegrationTest {
 
     @Autowired
@@ -57,18 +59,9 @@ public class LightControllerIntegrationTest {
     }
 
     @Test
-    public void on_ShouldUpdateToOnImage() throws Exception {
+    public void toggle_ShouldUpdateImage() throws Exception {
         mvc.perform( MockMvcRequestBuilders
-                .get("/turn/on")
-                .accept(MediaType.TEXT_HTML))
-                .andDo(print())
-                .andExpect(status().isOk());
-    }
-
-    @Test
-    public void off_ShouldUpdateToOnImage() throws Exception {
-        mvc.perform( MockMvcRequestBuilders
-                .get("/turn/off")
+                .get("/toggle")
                 .accept(MediaType.TEXT_HTML))
                 .andDo(print())
                 .andExpect(status().isOk());

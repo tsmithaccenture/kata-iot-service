@@ -1,6 +1,5 @@
 package com.accenture.mqtt;
 
-import com.accenture.IotImage;
 import com.accenture.Store;
 import org.eclipse.paho.client.mqttv3.MqttMessage;
 import org.junit.Test;
@@ -23,21 +22,10 @@ public class LightCallbackTest {
     private LightCallback lightCallback;
 
     @Test
-    public void messageArrived_GivenStoreHasOffStatus_WhenAnyMessageIsReceived_ThenUpdateStoreWithOnStatus(){
-        when(store.getImageUrl()).thenReturn(IotImage.OFF_IMAGE_URL);
-
+    public void messageArrived_GivenStoreHasOffStatus_WhenAnyMessageIsReceived_ThenImageIsToggled(){
         lightCallback.messageArrived("Any Topic", new MqttMessage(DEFAULT_MESSAGE.getBytes()));
 
-        verify(store).setImageUrl(IotImage.ON_IMAGE_URL);
-    }
-
-    @Test
-    public void messageArrived_GivenStoreHasOnStatus_WhenAnyMessageIsReceived_ThenUpdateStoreWithOffStatus(){
-        when(store.getImageUrl()).thenReturn(IotImage.ON_IMAGE_URL);
-
-        lightCallback.messageArrived("Any Topic", new MqttMessage(DEFAULT_MESSAGE.getBytes()));
-
-        verify(store).setImageUrl(IotImage.OFF_IMAGE_URL);
+        verify(store).toggleImage();
     }
 
     @Test

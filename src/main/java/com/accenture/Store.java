@@ -19,4 +19,12 @@ public class Store{
     public void setImageUrl(String imageUrl){
         this.imageUrl = imageUrl;
     }
+
+    public void toggleImage() {
+        if(getImageUrl().equals(OFF_IMAGE_URL)) {
+            setImageUrl(ON_IMAGE_URL);
+        }else {
+            setImageUrl(OFF_IMAGE_URL);
+        }
+    }
 }

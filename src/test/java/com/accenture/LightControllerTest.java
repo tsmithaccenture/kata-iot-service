@@ -1,5 +1,10 @@
 package com.accenture;
 
+import com.accenture.mqtt.LightPublisher;
+import com.accenture.mqtt.MqttClientFactory;
+import org.eclipse.paho.client.mqttv3.MqttClient;
+import org.eclipse.paho.client.mqttv3.MqttException;
+import org.eclipse.paho.client.mqttv3.MqttMessage;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -8,6 +13,7 @@ import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.ui.Model;
 
+import static com.accenture.mqtt.LightPublisher.*;
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.*;
 
@@ -20,6 +26,9 @@ public class LightControllerTest {
 
     @Mock
     private Store store;
+
+    @Mock
+    private LightPublisher publisher;
 
     @InjectMocks
     private LightController controller;
@@ -51,16 +60,9 @@ public class LightControllerTest {
     }
 
     @Test
-    public void on_ShouldSetImageUrl(){
-        controller.on();
+    public void toggle_ShouldPublishMqttMessage() {
+        controller.toggle();
 
-        verify(store).setImageUrl(IotImage.ON_IMAGE_URL);
-    }
-
-    @Test
-    public void off_ShouldSetImageUrl(){
-        controller.off();
-
-        verify(store).setImageUrl(IotImage.OFF_IMAGE_URL);
+        verify(publisher).publish();
     }
 }
