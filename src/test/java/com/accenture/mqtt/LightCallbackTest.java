@@ -8,15 +8,13 @@ import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.verifyNoMoreInteractions;
+
+import static org.mockito.Mockito.*;
 
 @RunWith(MockitoJUnitRunner.class)
 public class LightCallbackTest {
 
-    private static final String ON = "1";
-    private static final String OFF = "0";
-
+    private final static String DEFAULT_MESSAGE = "default";
 
     @Mock
     private Store store;
@@ -25,15 +23,19 @@ public class LightCallbackTest {
     private LightCallback lightCallback;
 
     @Test
-    public void messageArrived_WhenOnCodeIsReceived_ThenUpdateStoreWithOnStatus(){
-        lightCallback.messageArrived("Any Topic", new MqttMessage(ON.getBytes()));
+    public void messageArrived_GivenStoreHasOffStatus_WhenAnyMessageIsReceived_ThenUpdateStoreWithOnStatus(){
+        when(store.getImageUrl()).thenReturn(IotImage.OFF_IMAGE_URL);
+
+        lightCallback.messageArrived("Any Topic", new MqttMessage(DEFAULT_MESSAGE.getBytes()));
 
         verify(store).setImageUrl(IotImage.ON_IMAGE_URL);
     }
 
     @Test
-    public void messageArrived_WhenOffCodeIsReceived_ThenUpdateStoreWithOffStatus(){
-        lightCallback.messageArrived("Any Topic", new MqttMessage(OFF.getBytes()));
+    public void messageArrived_GivenStoreHasOnStatus_WhenAnyMessageIsReceived_ThenUpdateStoreWithOffStatus(){
+        when(store.getImageUrl()).thenReturn(IotImage.ON_IMAGE_URL);
+
+        lightCallback.messageArrived("Any Topic", new MqttMessage(DEFAULT_MESSAGE.getBytes()));
 
         verify(store).setImageUrl(IotImage.OFF_IMAGE_URL);
     }
