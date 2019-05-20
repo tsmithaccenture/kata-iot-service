@@ -31,14 +31,12 @@ public class LightCallback implements MqttCallback {
     @Override
     public void messageArrived(String topic, MqttMessage message){
 
-        if (message == null)
+        if (message == null || new String(message.getPayload()).equals(""))
             return;
 
-        String signal = new String(message.getPayload());
-
-        if(codes.get("ON").equals(signal)) {
+        if(store.getImageUrl().equals(IotImage.OFF_IMAGE_URL)) {
             store.setImageUrl(IotImage.ON_IMAGE_URL);
-        }else if(codes.get("OFF").equals(signal)) {
+        }else {
             store.setImageUrl(IotImage.OFF_IMAGE_URL);
         }
     }
