@@ -7,20 +7,12 @@ import org.eclipse.paho.client.mqttv3.MqttMessage;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
-import java.util.HashMap;
 
 @Component
 public class LightCallback implements MqttCallback {
 
     @Resource
     private Store store;
-
-    private HashMap<String, String> codes = new HashMap<>();
-
-    public LightCallback(){
-        codes.put("ON", "1");
-        codes.put("OFF", "0");
-    }
 
     @Override
     public void connectionLost(Throwable cause) {
